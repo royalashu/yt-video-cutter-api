@@ -1,13 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 const { exec } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const cron = require('node-cron');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// Allow CORS for your Chrome extension
+const allowedOrigins = ['chrome-extension://pkggpaipfaghkhpikfddklfnmomhmmjh']; // Replace with your actual extension ID
+
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST'],
+}));
+
 app.use(express.json());
 
 // Store metadata about files
@@ -100,4 +104,3 @@ app.use(express.static(__dirname));
 app.listen(PORT, () => {
     console.log(`API running on http://localhost:${PORT}`);
 });
-
